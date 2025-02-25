@@ -1,0 +1,4 @@
+name: TMCORE
+version: '1.0-SNAPSHOT'
+main: krek.tMCORE.TMCORE
+api-version: '1.21'
