@@ -1,4 +1,4 @@
 package krek.tMCORE.HealthBar;
 
-public class EnemyHB {
+public class EnemyBarManager {
 }
