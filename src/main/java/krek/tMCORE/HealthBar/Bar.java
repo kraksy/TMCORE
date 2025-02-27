@@ -3,19 +3,11 @@ package krek.tMCORE.HealthBar;
 public class Bar {
 
     int length;
+    String solid;
+    String empty;
+    String leftCorner;
+    String rightCorner;
 
-    String solid = "█";
-    String empty = "-";
-    String leftCorner = "[";
-    String rightCorner = "]";
-
-    public Bar(int length, String solid, String empty, String leftCorner, String rightCorner) {
-        this.length = length;
-        this.solid = solid;
-        this.empty = empty;
-        this.leftCorner = leftCorner;
-        this.rightCorner = rightCorner;
-    }
 
     public int getLength() {
         return length;

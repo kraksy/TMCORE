@@ -14,23 +14,39 @@ import java.util.Objects;
 
 public class PlayerBarManager implements Listener {
 
-    Bar healthBar = new Bar(20 , "█", "-", "[", "]");
-    Bar ManaBar = new Bar(20 , "█", "-", "[", "]");
+    String solid = "█";
+    String empty = "-";
+    String leftCorner = "[";
+    String rightCorner = "]";
 
     public String barAssemble(double maxHp, double hp)
     {
         StringBuilder totalBar = new StringBuilder();
+        double emptyHp = maxHp - hp;
 
+        totalBar.append(leftCorner);
+        for (int i = 0; i < hp; i++)
+        {
+            totalBar.append(solid);
+        }
+        for (int i = 0; i < emptyHp; i++)
+        {
+            totalBar.append(empty);
+        }
+        totalBar.append(rightCorner);
 
-        return
+        return  totalBar.toString();
     }
 
-    public String connectBars() {
+    public String connectBars(String hpBar, String manaBar) {
         StringBuilder totalBar = new StringBuilder();
 
-
-        totalBar.append(healthBar);
-        totalBar.append(ManaBar);
+        totalBar.append(hpBar);
+        for (int i = 0; i < 3; i++)
+        {
+            totalBar.append(" ");
+        }
+        totalBar.append(manaBar);
 
         return totalBar.toString();
     }
@@ -55,8 +71,7 @@ public class PlayerBarManager implements Listener {
             double mana = 20;
             double maxMana = 20;
 
-            // im sure that this is not okay :)
-            player.sendActionBar(Component.text(barAssemble(barComponent(health, maxHealth), barComponent(maxMana, mana))));
+            player.sendActionBar(Component.text(connectBars(barAssemble(health, maxHealth), barAssemble(maxMana, mana))));
         }
     }
 
