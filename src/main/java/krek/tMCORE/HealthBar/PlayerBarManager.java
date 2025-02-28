@@ -60,8 +60,8 @@ public class PlayerBarManager implements Listener {
 
     @EventHandler
     public void update(EntityDamageEvent event)
-    {
-        Entity entity = event.getEntity();
+        {
+            Entity entity = event.getEntity();
 
         if (entity instanceof Player) {
             Player player = ((Player) entity).getPlayer();

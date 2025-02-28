@@ -2,10 +2,12 @@ package krek.tMCORE;
 
 import krek.tMCORE.HealthBar.EnemyBarManager;
 import krek.tMCORE.HealthBar.PlayerBarManager;
+import krek.tMCORE.commands.SpawningMenuCommand;
 import org.bukkit.Bukkit;
 import org.bukkit.event.Listener;
 import org.bukkit.plugin.java.JavaPlugin;
 
+import java.util.Objects;
 import java.util.logging.Logger;
 
 public final class TMCORE extends JavaPlugin implements Listener {
@@ -23,6 +25,10 @@ public final class TMCORE extends JavaPlugin implements Listener {
         log.info("loaded enemy bars");
         Bukkit.getPluginManager().registerEvents(new PlayerBarManager(), this);
         log.info("loaded player bars");
+
+        Objects.requireNonNull(getCommand("spawnmenu")).setExecutor(new SpawningMenuCommand());
+        log.info("loaded spawning menu");
+
     }
 
     @Override
