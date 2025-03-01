@@ -3,6 +3,7 @@ package krek.tMCORE;
 import krek.tMCORE.HealthBar.EnemyBarManager;
 import krek.tMCORE.HealthBar.PlayerBarManager;
 import krek.tMCORE.commands.SpawningMenuCommand;
+import krek.tMCORE.commands.SpawningMenuListener;
 import org.bukkit.Bukkit;
 import org.bukkit.event.Listener;
 import org.bukkit.plugin.java.JavaPlugin;
@@ -26,6 +27,7 @@ public final class TMCORE extends JavaPlugin implements Listener {
         Bukkit.getPluginManager().registerEvents(new PlayerBarManager(), this);
         log.info("loaded player bars");
 
+        Bukkit.getPluginManager().registerEvents(new SpawningMenuListener(), this);
         Objects.requireNonNull(getCommand("spawnmenu")).setExecutor(new SpawningMenuCommand());
         log.info("loaded spawning menu");
 

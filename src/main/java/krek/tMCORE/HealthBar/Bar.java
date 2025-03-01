@@ -2,19 +2,33 @@ package krek.tMCORE.HealthBar;
 
 public class Bar {
 
-    int length;
     String solid;
     String empty;
     String leftCorner;
     String rightCorner;
+    String HIcon; // health icon
+    String MIcon; // mana icon
+    String AIcon; // armor icon
 
+    int HV; // health value
+    int MV; // mana value
+    String health;
+    String mana;
+    int AV; // armor value
 
-    public int getLength() {
-        return length;
-    }
-
-    public void setLength(int length) {
-        this.length = length;
+    public Bar(String solid, String empty, String leftCorner, String rightCorner, String HIcon, String MIcon, String AIcon, int HV, int MV, String health, String mana, int AV) {
+        this.solid = solid;
+        this.empty = empty;
+        this.leftCorner = leftCorner;
+        this.rightCorner = rightCorner;
+        this.HIcon = HIcon;
+        this.MIcon = MIcon;
+        this.AIcon = AIcon;
+        this.HV = HV;
+        this.MV = MV;
+        this.health = health;
+        this.mana = mana;
+        this.AV = AV;
     }
 
     public String getSolid() {
@@ -47,5 +61,69 @@ public class Bar {
 
     public void setRightCorner(String rightCorner) {
         this.rightCorner = rightCorner;
+    }
+
+    public String getHIcon() {
+        return HIcon;
+    }
+
+    public void setHIcon(String HIcon) {
+        this.HIcon = HIcon;
+    }
+
+    public String getMIcon() {
+        return MIcon;
+    }
+
+    public void setMIcon(String MIcon) {
+        this.MIcon = MIcon;
+    }
+
+    public String getAIcon() {
+        return AIcon;
+    }
+
+    public void setAIcon(String AIcon) {
+        this.AIcon = AIcon;
+    }
+
+    public int getHV() {
+        return HV;
+    }
+
+    public void setHV(int HV) {
+        this.HV = HV;
+    }
+
+    public int getMV() {
+        return MV;
+    }
+
+    public void setMV(int MV) {
+        this.MV = MV;
+    }
+
+    public String getHealth() {
+        return health;
+    }
+
+    public void setHealth(String health) {
+        this.health = health;
+    }
+
+    public String getMana() {
+        return mana;
+    }
+
+    public void setMana(String mana) {
+        this.mana = mana;
+    }
+
+    public int getAV() {
+        return AV;
+    }
+
+    public void setAV(int AV) {
+        this.AV = AV;
     }
 }
