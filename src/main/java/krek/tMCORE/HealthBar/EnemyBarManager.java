@@ -7,6 +7,7 @@ import org.bukkit.entity.Monster;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.entity.EntityDamageEvent;
+import org.bukkit.event.entity.EntitySpawnEvent;
 
 import java.util.Objects;
 
@@ -14,40 +15,55 @@ public class EnemyBarManager implements Listener {
 
     // vision █ █ █ █ █ | 3 ○
 
-    String empty = "-";
-    String solid = "█";
-    String armor = String.valueOf('○');
+    Bar EnemyBar = new Bar(
+            "█",
+            "-",
+            "[",
+            "]",
+            "♥",
+            "♦",
+            "♣",
+            0,
+            0,
+            "0",
+            "0",
+            0
+    );
 
-    public String barAssemble(double maxHp, double hp, double av)
+    public String barAssemble()
     {
         StringBuilder totalBar = new StringBuilder();
-        double emptyHp = maxHp - hp;
-
-        for (int i = 0; i < hp / 3; i++)
-        {
-            totalBar.append(solid);
-        }
-        for (int i = 0; i < emptyHp/ 3; i++)
-        {
-            totalBar.append(empty);
-        }
+        totalBar.append(EnemyBar.leftCorner);
+        totalBar.append(EnemyBar.HV);
+        totalBar.append(EnemyBar.HIcon);
+        totalBar.append(EnemyBar.rightCorner);
         totalBar.append(" ".repeat(3));
-        totalBar.append(av);
-        totalBar.append(" ");
-        totalBar.append(armor);
-
+        totalBar.append(EnemyBar.leftCorner);
+        totalBar.append(EnemyBar.AV);
+        totalBar.append(EnemyBar.AIcon);
+        totalBar.append(EnemyBar.rightCorner);
         return totalBar.toString();
     }
 
     @EventHandler
-    public void update(EntityDamageEvent event) {
+    public void onSpawnEnemy(EntitySpawnEvent event)
+    {
+        Entity e = event.getEntity();
+        if (e instanceof Monster m)
+        {
+            EnemyBar.HV = m.getHealth();
+            EnemyBar.AV = Objects.requireNonNull(m.getAttribute(Attribute.ARMOR)).getValue();
+            m.customName(Component.text(barAssemble()));
+        }
+    }
+
+    @EventHandler
+    public void onEnemyDamage(EntityDamageEvent event) {
         Entity e = event.getEntity();
         if (e instanceof Monster m){
-            double health = m.getHealth();
-            double maxHealth = Objects.requireNonNull(m.getAttribute(Attribute.MAX_HEALTH)).getValue();
-            double armor = Objects.requireNonNull(m.getAttribute(Attribute.ARMOR)).getValue();
-
-            m.customName(Component.text(barAssemble(health, maxHealth, armor)));
+            EnemyBar.HV = m.getHealth();
+            EnemyBar.AV = Objects.requireNonNull(m.getAttribute(Attribute.ARMOR)).getValue();
+            m.customName(Component.text(barAssemble()));
         }
     }
 

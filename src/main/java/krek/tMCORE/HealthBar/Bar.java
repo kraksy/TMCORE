@@ -10,13 +10,13 @@ public class Bar {
     String MIcon; // mana icon
     String AIcon; // armor icon
 
-    int HV; // health value
-    int MV; // mana value
+    double HV; // health value
+    double MV; // mana value
     String health;
     String mana;
-    int AV; // armor value
+    double AV; // armor value
 
-    public Bar(String solid, String empty, String leftCorner, String rightCorner, String HIcon, String MIcon, String AIcon, int HV, int MV, String health, String mana, int AV) {
+    public Bar(String solid, String empty, String leftCorner, String rightCorner, String HIcon, String MIcon, String AIcon, double HV, double MV, String health, String mana, double AV) {
         this.solid = solid;
         this.empty = empty;
         this.leftCorner = leftCorner;
@@ -87,19 +87,19 @@ public class Bar {
         this.AIcon = AIcon;
     }
 
-    public int getHV() {
+    public double getHV() {
         return HV;
     }
 
-    public void setHV(int HV) {
+    public void setHV(double HV) {
         this.HV = HV;
     }
 
-    public int getMV() {
+    public double getMV() {
         return MV;
     }
 
-    public void setMV(int MV) {
+    public void setMV(double MV) {
         this.MV = MV;
     }
 
@@ -119,11 +119,11 @@ public class Bar {
         this.mana = mana;
     }
 
-    public int getAV() {
+    public double getAV() {
         return AV;
     }
 
-    public void setAV(int AV) {
+    public void setAV(double AV) {
         this.AV = AV;
     }
 }

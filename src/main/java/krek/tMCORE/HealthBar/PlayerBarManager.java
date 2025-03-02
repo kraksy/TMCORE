@@ -2,20 +2,16 @@ package krek.tMCORE.HealthBar;
 
 import krek.tMCORE.TMCORE;
 import net.kyori.adventure.text.Component;
+import net.kyori.adventure.text.format.NamedTextColor;
 import org.bukkit.attribute.Attribute;
-import org.bukkit.attribute.AttributeInstance;
-import org.bukkit.entity.Entity;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
-import org.bukkit.event.entity.EntityDamageEvent;
+import org.bukkit.event.entity.EntityDamageByEntityEvent;
 import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.scheduler.BukkitRunnable;
-import org.jetbrains.annotations.Nullable;
 
 import java.util.Objects;
-
-import static jdk.javadoc.internal.doclets.toolkit.util.DocPath.empty;
 
 
 public class PlayerBarManager implements Listener {
@@ -35,7 +31,7 @@ public class PlayerBarManager implements Listener {
             0
             );
 
-    public Bar barAssemble()
+    public String barAssemble()
     {
         StringBuilder totalBar = new StringBuilder();
         totalBar.append(playerBar.leftCorner);
@@ -50,38 +46,39 @@ public class PlayerBarManager implements Listener {
         totalBar.append(playerBar.MV);
         totalBar.append(playerBar.MIcon);
         totalBar.append(playerBar.rightCorner);
-        return  totalBar.toString();
-    }
-
-    public String connectBars(String hpBar, String manaBar) {
-        StringBuilder totalBar = new StringBuilder();
-
-        totalBar.append(hpBar);
         for (int i = 0; i < 3; i++)
         {
             totalBar.append(" ");
         }
-        totalBar.append(manaBar);
-
-        return totalBar.toString();
+        totalBar.append(playerBar.leftCorner);
+        totalBar.append(playerBar.AV);
+        totalBar.append(playerBar.AIcon);
+        totalBar.append(playerBar.rightCorner);
+        return  totalBar.toString();
     }
 
-    // on join give bars , on damage update
+    // on heal update also
 
     @EventHandler
     public void onPlayerJoin(PlayerJoinEvent event) {
         Player player = event.getPlayer();
+        playerBar.HV = Objects.requireNonNull(player.getAttribute(Attribute.MAX_HEALTH)).getValue();
+        playerBar.AV = Objects.requireNonNull(player.getAttribute(Attribute.ARMOR)).getValue();
 
         new BukkitRunnable() {
             @Override
             public void run() {
-                double playerHealth = player.getHealth();
-                double playerMaxHealth = Objects.requireNonNull(player.getAttribute(Attribute.MAX_HEALTH)).getValue();
-                double mana = 20;
-                double maxMana = 20;
-
-                player.sendActionBar(Component.text(connectBars(barAssemble(playerHealth, playerMaxHealth), barAssemble(maxMana, mana))));
+                player.sendActionBar(Component.text(barAssemble()));
             }
         }.runTaskTimer(TMCORE.getPlugin(TMCORE.class), 0L, 5L);
+    }
+
+    @EventHandler
+    public void onPlayerDamage(EntityDamageByEntityEvent event) {
+        if (event.getEntity() instanceof Player player) {
+            double currentHealth = player.getHealth();
+            playerBar.HV = currentHealth - event.getFinalDamage();
+            player.sendActionBar(Component.text(barAssemble()));
+        }
     }
 }
