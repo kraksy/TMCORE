@@ -11,11 +11,28 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.entity.EntitySpawnEvent;
 import org.bukkit.event.inventory.InventoryClickEvent;
+import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.scheduler.BukkitRunnable;
 import org.bukkit.util.Vector;
 
+import static org.bukkit.Bukkit.createInventory;
+
 public class SpawningMenuListener implements Listener {
+
+    public Inventory createLevelSelect(Player p)
+    {
+        Inventory inventory = createInventory(p, 54, Component.text("level select"));
+
+        for(int i = 0; i < inventory.getSize(); i++)
+        {
+            ItemStack item = new ItemStack(Material.STONE);
+            item.setAmount(i);
+            inventory.setItem(i, item);
+        }
+
+        return inventory;
+    }
 
     @EventHandler
     public void onInventoryClick(InventoryClickEvent e) {
@@ -28,6 +45,17 @@ public class SpawningMenuListener implements Listener {
             if (clickedItem == null || clickedItem.getType() == Material.AIR) return;
 
             if (clickedItem.getType() == Material.ZOMBIE_HEAD) {
+                Inventory inventory = createLevelSelect(p);
+                p.openInventory(inventory);
+            }
+        }
+
+        if (e.getView().title().toString().contains("level select")) {
+            e.setCancelled(true);
+            ItemStack clickedItem = e.getCurrentItem();
+            if (clickedItem == null || clickedItem.getType() == Material.AIR) return;
+            if (clickedItem.getType() == Material.STONE) {
+                // set level with clickedItem.getAmount();
                 p.sendMessage(Component.text("You clicked the Spawn Zombie egg!", NamedTextColor.GREEN));
                 p.getWorld().spawnEntity(p.getLocation(), EntityType.ZOMBIE);
             }

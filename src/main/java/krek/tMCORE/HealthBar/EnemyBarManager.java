@@ -7,13 +7,12 @@ import org.bukkit.entity.Monster;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.entity.EntityDamageEvent;
+import org.bukkit.event.entity.EntityRegainHealthEvent;
 import org.bukkit.event.entity.EntitySpawnEvent;
 
 import java.util.Objects;
 
 public class EnemyBarManager implements Listener {
-
-    // vision █ █ █ █ █ | 3 ○
 
     Bar EnemyBar = new Bar(
             "█",
@@ -58,6 +57,18 @@ public class EnemyBarManager implements Listener {
     }
 
     @EventHandler
+    public void onEnemyHeal(EntityRegainHealthEvent event)
+    {
+        Entity e = event.getEntity();
+        if (e instanceof Monster m)
+        {
+            EnemyBar.HV = m.getHealth();
+            EnemyBar.AV = Objects.requireNonNull(m.getAttribute(Attribute.ARMOR)).getValue();
+            m.customName(Component.text(barAssemble()));
+        }
+    }
+
+    @EventHandler
     public void onEnemyDamage(EntityDamageEvent event) {
         Entity e = event.getEntity();
         if (e instanceof Monster m){
@@ -66,25 +77,4 @@ public class EnemyBarManager implements Listener {
             m.customName(Component.text(barAssemble()));
         }
     }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 }

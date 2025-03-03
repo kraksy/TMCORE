@@ -4,10 +4,12 @@ import krek.tMCORE.TMCORE;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.format.NamedTextColor;
 import org.bukkit.attribute.Attribute;
+import org.bukkit.attribute.AttributeInstance;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.entity.EntityDamageByEntityEvent;
+import org.bukkit.event.entity.EntityRegainHealthEvent;
 import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.scheduler.BukkitRunnable;
 
@@ -57,28 +59,47 @@ public class PlayerBarManager implements Listener {
         return  totalBar.toString();
     }
 
-    // on heal update also
-
     @EventHandler
-    public void onPlayerJoin(PlayerJoinEvent event) {
+    public void onPlayerJoin(PlayerJoinEvent event)
+    {
         Player player = event.getPlayer();
-        playerBar.HV = Objects.requireNonNull(player.getAttribute(Attribute.MAX_HEALTH)).getValue();
-        playerBar.AV = Objects.requireNonNull(player.getAttribute(Attribute.ARMOR)).getValue();
+        AttributeInstance healthAttr = player.getAttribute(Attribute.MAX_HEALTH);
+        AttributeInstance armorAttr = player.getAttribute(Attribute.ARMOR);
 
         new BukkitRunnable() {
             @Override
             public void run() {
+                if (healthAttr != null) playerBar.HV = healthAttr.getValue();
+                if (armorAttr != null) playerBar.AV = armorAttr.getValue();
+                if (!player.isOnline()) {
+                    this.cancel(); // Stop the task if the player is offline
+                    return;
+                }
                 player.sendActionBar(Component.text(barAssemble()));
             }
         }.runTaskTimer(TMCORE.getPlugin(TMCORE.class), 0L, 5L);
+
+    }
+
+    // below is prob not important
+    @EventHandler
+    public void onPlayerHeal(EntityRegainHealthEvent event)
+    {
+        if (event.getEntity() instanceof Player p)
+        {
+            playerBar.HV = p.getHealth();
+            playerBar.AV = Objects.requireNonNull(p.getAttribute(Attribute.ARMOR)).getValue();
+            p.sendActionBar(Component.text(barAssemble()));
+        }
     }
 
     @EventHandler
-    public void onPlayerDamage(EntityDamageByEntityEvent event) {
-        if (event.getEntity() instanceof Player player) {
-            double currentHealth = player.getHealth();
-            playerBar.HV = currentHealth - event.getFinalDamage();
-            player.sendActionBar(Component.text(barAssemble()));
+    public void onPlayerDamage(EntityDamageByEntityEvent event)
+    {
+        if (event.getEntity() instanceof Player p) {
+            playerBar.HV = p.getHealth();
+            playerBar.AV = Objects.requireNonNull(p.getAttribute(Attribute.ARMOR)).getValue();
+            p.sendActionBar(Component.text(barAssemble()));
         }
     }
 }
