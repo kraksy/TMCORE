@@ -1,55 +1,30 @@
 package krek.tMCORE.utils;
 
+import org.bukkit.configuration.file.FileConfiguration;
+import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.entity.Player;
 import org.bukkit.event.Listener;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.player.PlayerJoinEvent;
+import org.bukkit.event.player.PlayerQuitEvent;
+import org.bukkit.plugin.java.JavaPlugin;
 
-public class PlayerDataManager implements Listener {
+import java.io.File;
+import java.io.IOException;
+import java.util.UUID;
 
-    @EventHandler
-    public void onPlayerLogin(PlayerJoinEvent event)
-    {
-        Player player = event.getPlayer();
+import static org.bukkit.Bukkit.getLogger;
+
+public class PlayerDataManager extends JavaPlugin implements Listener {
+
+    public PlayerDataManager() {
+
     }
 
+    public File playerDataFile;
+    public FileConfiguration playerDataConfig;
 
-    @EventHandler
-    public void onPlayerJoin(PlayerJoinEvent event) {
-        Player player = event.getPlayer();
-        int level = getPlayerLevel(player);
-        player.sendMessage("Welcome back! Your level is " + level);
-    }
-
-    // Event: Save player data when they leave
-    @EventHandler
-    public void onPlayerQuit(PlayerQuitEvent event) {
-        Player player = event.getPlayer();
-        int currentLevel = getPlayerLevel(player);
-        setPlayerLevel(player, currentLevel); // Saves level when they leave
-    }
-
-    /*
-
-        private File playerDataFile;
-    private FileConfiguration playerDataConfig;
-
-    @Override
-    public void onEnable() {
-        // Register events
-        getServer().getPluginManager().registerEvents(this, this);
-
-        // Create the data file
-        createPlayerDataFile();
-    }
-
-    @Override
-    public void onDisable() {
-        // Save player data before the plugin shuts down
-        savePlayerData();
-    }
-
-    private void createPlayerDataFile() {
+    public void createPlayerDataFile() {
         playerDataFile = new File(getDataFolder(), "playerdata.yml");
 
         if (!playerDataFile.exists()) {
@@ -81,23 +56,6 @@ public class PlayerDataManager implements Listener {
         return playerDataConfig.getInt("players." + uuid + ".level", 1); // Default to level 1
     }
 
-    // Event: Load player data when they join
-    @EventHandler
-    public void onPlayerJoin(PlayerJoinEvent event) {
-        Player player = event.getPlayer();
-        int level = getPlayerLevel(player);
-        player.sendMessage("Welcome back! Your level is " + level);
-    }
-
-    // Event: Save player data when they leave
-    @EventHandler
-    public void onPlayerQuit(PlayerQuitEvent event) {
-        Player player = event.getPlayer();
-        int currentLevel = getPlayerLevel(player);
-        setPlayerLevel(player, currentLevel); // Saves level when they leave
-    }
-}
-     */
 
 
 }
