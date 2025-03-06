@@ -8,19 +8,7 @@ import org.bukkit.event.entity.EntityDeathEvent;
 
 public class PlayerStatsManager implements Listener {
 
-    public void saveData(Player p) {}
 
-    public void loadData(Player p) {}
-
-    public void updateData(Player p) {}
-
-
-    @EventHandler
-    public void onEnemyKill(EntityDeathEvent e) {
-        if (e.getEntity().getKiller() instanceof Player p) {
-            FileConfiguration config = getConfig()
-        }
-    }
 
 
 

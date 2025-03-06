@@ -17,10 +17,6 @@ import static org.bukkit.Bukkit.getLogger;
 
 public class PlayerDataManager extends JavaPlugin implements Listener {
 
-    public PlayerDataManager() {
-
-    }
-
     public File playerDataFile;
     public FileConfiguration playerDataConfig;
 
@@ -39,7 +35,6 @@ public class PlayerDataManager extends JavaPlugin implements Listener {
             playerDataConfig.save(playerDataFile);
         } catch (IOException e) {
             getLogger().severe("Could not save player data file!");
-            e.printStackTrace();
         }
     }
 

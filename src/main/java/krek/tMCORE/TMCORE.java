@@ -7,7 +7,11 @@ import krek.tMCORE.commands.SpawningMenuCommand;
 import krek.tMCORE.commands.SpawningMenuListener;
 import krek.tMCORE.utils.PlayerDataManager;
 import org.bukkit.Bukkit;
+import org.bukkit.entity.Player;
+import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
+import org.bukkit.event.player.PlayerJoinEvent;
+import org.bukkit.event.player.PlayerQuitEvent;
 import org.bukkit.plugin.java.JavaPlugin;
 
 import java.util.Objects;
@@ -16,6 +20,7 @@ import java.util.logging.Logger;
 public final class TMCORE extends JavaPlugin implements Listener {
 
     Logger log = getLogger();
+    PlayerDataManager playerDataManager = new PlayerDataManager();
 
     @Override
     public void onEnable() {
@@ -23,9 +28,7 @@ public final class TMCORE extends JavaPlugin implements Listener {
         log.info("<< starting >>");
         log.info("==============");
 
-        PlayerDataManager playerDataManager = new PlayerDataManager();
-
-        playerDataManager.createPlayerDataFile();
+        // playerDataManager.createPlayerDataFile();
 
         Bukkit.getPluginManager().registerEvents(this, this);
         Bukkit.getPluginManager().registerEvents(new EnemyBarManager(), this);
@@ -39,8 +42,27 @@ public final class TMCORE extends JavaPlugin implements Listener {
 
     }
 
-    @Override
-    public void onDisable() {
-        log.info("ending");
-    }
+        /*
+        @Override
+        public void onDisable() {
+            log.info("ending");
+            playerDataManager.savePlayerData();
+        }
+
+        @EventHandler
+        public void onPlayerJoin(PlayerJoinEvent event) {
+            Player player = event.getPlayer();
+            int level = playerDataManager.getPlayerLevel(player);
+            player.sendMessage("Welcome back! Your level is " + level);
+        }
+
+        @EventHandler
+        public void onPlayerQuit(PlayerQuitEvent event) {
+            Player player = event.getPlayer();
+            int currentLevel = playerDataManager.getPlayerLevel(player);
+            playerDataManager.setPlayerLevel(player, currentLevel);
+        }
+        */
+
+
 }
