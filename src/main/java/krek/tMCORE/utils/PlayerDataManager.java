@@ -15,7 +15,9 @@ import java.util.UUID;
 
 import static org.bukkit.Bukkit.getLogger;
 
-public class PlayerDataManager extends JavaPlugin implements Listener {
+// move this into main file anyways, needs extend of javaplugin to work , so there is no choice here , or just do more reading
+
+public class PlayerDataManager implements Listener {
 
     public File playerDataFile;
     public FileConfiguration playerDataConfig;
