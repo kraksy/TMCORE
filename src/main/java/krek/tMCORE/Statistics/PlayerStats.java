@@ -4,29 +4,20 @@ import org.bukkit.entity.Player;
 
 public class PlayerStats {
 
-    Player player;
     int level;
-
+    int xp;
     int vigor;
     int strength;
     int dexterity;
     int intelligence;
 
-    public PlayerStats(Player player, int level, int vigor, int strength, int dexterity, int intelligence) {
-        this.player = player;
+    public PlayerStats(int level, int xp, int vigor, int strength, int dexterity, int intelligence) {
         this.level = level;
+        this.xp = xp;
         this.vigor = vigor;
         this.strength = strength;
         this.dexterity = dexterity;
         this.intelligence = intelligence;
-    }
-
-    public Player getPlayer() {
-        return player;
-    }
-
-    public void setPlayer(Player player) {
-        this.player = player;
     }
 
     public int getLevel() {
@@ -35,6 +26,14 @@ public class PlayerStats {
 
     public void setLevel(int level) {
         this.level = level;
+    }
+
+    public int getXp() {
+        return xp;
+    }
+
+    public void setXp(int xp) {
+        this.xp = xp;
     }
 
     public int getVigor() {

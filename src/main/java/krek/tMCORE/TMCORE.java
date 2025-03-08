@@ -2,14 +2,18 @@ package krek.tMCORE;
 
 import krek.tMCORE.HealthBar.EnemyBarManager;
 import krek.tMCORE.HealthBar.PlayerBarManager;
+import krek.tMCORE.Statistics.PlayerStats;
 import krek.tMCORE.commands.SpawningMenuCommand;
 import krek.tMCORE.commands.SpawningMenuListener;
 import org.bukkit.Bukkit;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
+import org.bukkit.entity.Entity;
+import org.bukkit.entity.Monster;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
+import org.bukkit.event.entity.EntityDamageByEntityEvent;
 import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
 import org.bukkit.plugin.java.JavaPlugin;
@@ -97,23 +101,66 @@ public final class TMCORE extends JavaPlugin implements Listener {
         }
     }
 
-    public void setPlayerLevel(Player player, int level) {
-        playerDataConfig.set("players." + player.getUniqueId() + ".level", level);
+    public void setPlayerStats(Player player, PlayerStats stats) {
+        playerDataConfig.set("players." + player.getUniqueId() + ".level", stats.getLevel());
+        playerDataConfig.set("players." + player.getUniqueId() + ".xp", stats.getXp());
+        playerDataConfig.set("players." + player.getUniqueId() + ".vigor", stats.getVigor());
+        playerDataConfig.set("players." + player.getUniqueId() + ".strength" , stats.getStrength());
+        playerDataConfig.set("players." + player.getUniqueId() + ".dexterity", stats.getDexterity());
+        playerDataConfig.set("players." + player.getUniqueId() +  ".intelligence", stats.getIntelligence());
         savePlayerData();
     }
 
-    public int getPlayerLevel(Player player) {
-        return playerDataConfig.getInt("players." + player.getUniqueId() + ".level", 1);
+    public PlayerStats getPlayerStats(Player player) {
+        PlayerStats stats = new PlayerStats(0 ,0 , 0, 0, 0, 0);
+
+        stats.setLevel(playerDataConfig.getInt("players." + player.getUniqueId() + ".level"));
+        stats.setXp(playerDataConfig.getInt("players." + player.getUniqueId() + ".xp"));
+        stats.setVigor(playerDataConfig.getInt("players." + player.getUniqueId() + ".level"));
+        stats.setStrength(playerDataConfig.getInt("players." + player.getUniqueId() + ".level"));
+        stats.setDexterity(playerDataConfig.getInt("players." + player.getUniqueId() + ".level"));
+        stats.setIntelligence(playerDataConfig.getInt("players." + player.getUniqueId() + ".level"));
+
+        return stats;
     }
 
     @EventHandler
     public void onPlayerJoin(PlayerJoinEvent event) {
         Player player = event.getPlayer();
-        player.sendMessage("Welcome back! Your level is " + getPlayerLevel(player));
+        player.sendMessage("Welcome back! Your stats are " + getPlayerStats(player));
     }
 
     @EventHandler
     public void onPlayerQuit(PlayerQuitEvent event) {
-        setPlayerLevel(event.getPlayer(), getPlayerLevel(event.getPlayer()));
+        setPlayerStats(event.getPlayer(), getPlayerStats(event.getPlayer()));
     }
+
+    public boolean checkLevelUp(Player player)
+    {
+        PlayerStats stats = getPlayerStats(player);
+        for (int i = 0; i < stats.getLevel() ; i++)
+        {
+            int levelUpReq = i * 20;
+        }
+    };
+
+    // get xp from mobs and level up
+    @EventHandler
+    public void onEntityKilled(EntityDamageByEntityEvent event) {
+        if (event.getDamager() instanceof Player player)
+        {
+            Entity mob = event.getEntity();
+            if (mob instanceof Monster)
+            {
+                // give player xp
+                // check for level up
+            }
+            else
+            {
+
+            }
+        }
+    }
+
+
 }
