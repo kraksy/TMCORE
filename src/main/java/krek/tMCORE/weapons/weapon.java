@@ -3,24 +3,24 @@ package krek.tMCORE.weapons;
 import org.bukkit.inventory.ItemStack;
 
 public class weapon {
-    int level;
+    int levelReq;
     String name;
-    String description;
-    ItemStack item;
+    String lore;
+    ItemStack itemVisual;
 
-    public weapon(int level, String name, String description, ItemStack item) {
-        this.level = level;
+    public weapon(int levelReq, String name, String lore, ItemStack itemVisual) {
+        this.levelReq = levelReq;
         this.name = name;
-        this.description = description;
-        this.item = item;
+        this.lore = lore;
+        this.itemVisual = itemVisual;
     }
 
-    public int getLevel() {
-        return level;
+    public int getLevelReq() {
+        return levelReq;
     }
 
-    public void setLevel(int level) {
-        this.level = level;
+    public void setLevelReq(int levelReq) {
+        this.levelReq = levelReq;
     }
 
     public String getName() {
@@ -31,19 +31,19 @@ public class weapon {
         this.name = name;
     }
 
-    public String getDescription() {
-        return description;
+    public String getLore() {
+        return lore;
     }
 
-    public void setDescription(String description) {
-        this.description = description;
+    public void setLore(String lore) {
+        this.lore = lore;
     }
 
-    public ItemStack getItem() {
-        return item;
+    public ItemStack getItemVisual() {
+        return itemVisual;
     }
 
-    public void setItem(ItemStack item) {
-        this.item = item;
+    public void setItemVisual(ItemStack itemVisual) {
+        this.itemVisual = itemVisual;
     }
 }

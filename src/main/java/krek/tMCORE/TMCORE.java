@@ -5,7 +5,10 @@ import krek.tMCORE.HealthBar.PlayerBarManager;
 import krek.tMCORE.Statistics.PlayerStats;
 import krek.tMCORE.commands.SpawningMenuCommand;
 import krek.tMCORE.commands.SpawningMenuListener;
+import krek.tMCORE.weapons.weaponManager;
+import net.kyori.adventure.text.Component;
 import org.bukkit.Bukkit;
+import org.bukkit.Material;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.entity.Entity;
@@ -14,15 +17,21 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.entity.EntityDamageByEntityEvent;
+import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
+import org.bukkit.inventory.Inventory;
+import org.bukkit.inventory.ItemStack;
 import org.bukkit.plugin.java.JavaPlugin;
 
+import static org.bukkit.Bukkit.createInventory;
 import java.io.File;
 import java.io.IOException;
 import java.util.Objects;
 import java.util.UUID;
 import java.util.logging.Logger;
+
+import static org.bukkit.Bukkit.createInventory;
 
 public final class TMCORE extends JavaPlugin implements Listener {
 
@@ -57,6 +66,7 @@ public final class TMCORE extends JavaPlugin implements Listener {
         Bukkit.getPluginManager().registerEvents(new EnemyBarManager(), this);
         Bukkit.getPluginManager().registerEvents(new PlayerBarManager(), this);
         Bukkit.getPluginManager().registerEvents(new SpawningMenuListener(), this);
+        Bukkit.getPluginManager().registerEvents(new weaponManager(), this);
         log.info("[TMCORE] Plugin events has been registered");
     }
 
@@ -135,14 +145,21 @@ public final class TMCORE extends JavaPlugin implements Listener {
         setPlayerStats(event.getPlayer(), getPlayerStats(event.getPlayer()));
     }
 
-    public boolean checkLevelUp(Player player)
+
+    public void openLevelUpMenu(Player player)
     {
-        PlayerStats stats = getPlayerStats(player);
-        for (int i = 0; i < stats.getLevel() ; i++)
-        {
-            int levelUpReq = i * 20;
-        }
-    };
+        // decorate this later
+        Inventory inv = createInventory(player, 54, Component.text("Level up!"));
+        ItemStack vitality = new ItemStack(Material.RED_WOOL, 1);
+        ItemStack strength = new ItemStack(Material.IRON_SWORD, 1);
+        ItemStack dexterity = new ItemStack(Material.LEATHER_BOOTS, 1);
+        ItemStack intelligence = new ItemStack(Material.ENDER_PEARL, 1);
+        inv.setItem(11, vitality);
+        inv.setItem(13, strength);
+        inv.setItem(15, dexterity);
+        inv.setItem(17, intelligence);
+        player.openInventory(inv);
+    }
 
     // get xp from mobs and level up
     @EventHandler
@@ -152,15 +169,74 @@ public final class TMCORE extends JavaPlugin implements Listener {
             Entity mob = event.getEntity();
             if (mob instanceof Monster)
             {
-                // give player xp
-                // check for level up
-            }
-            else
-            {
-
+                gainXp(player, (int) event.getDamage()); // lmao this is kinda funny
+                checkLevelUp(player);
             }
         }
     }
 
+    // levelUP menu will actually level up the player
+    @EventHandler
+    public void onInventoryClick(InventoryClickEvent event) {
+        Player p = (Player) event.getWhoClicked();
+        if (event.getView().title().toString().contains("Level up!"))
+        {
+            event.setCancelled(true);
+            PlayerStats stats = getPlayerStats(p);
 
+            ItemStack clickedItem = event.getCurrentItem();
+            if (clickedItem == null || clickedItem.getType() == Material.AIR) return;
+
+            // decorate this later with sounds or something
+            switch (clickedItem.getType())
+            {
+                case RED_WOOL:
+                    stats.setVigor(stats.getVigor() + 1);
+                    gainLevelUp(p);
+                    event.getView().close();
+                case IRON_SWORD:
+                    stats.setStrength(stats.getStrength() + 1);
+                    gainLevelUp(p);
+                    event.getView().close();
+                case LEATHER_BOOTS:
+                    stats.setDexterity(stats.getDexterity() + 1);
+                    gainLevelUp(p);
+                    event.getView().close();
+                case ENDER_PEARL:
+                    stats.setIntelligence(stats.getIntelligence() + 1);
+                    gainLevelUp(p);
+                    event.getView().close();
+            }
+
+        }
+    }
+
+    public void gainXp(Player player, int xp)
+    {
+        PlayerStats stats = getPlayerStats(player);
+        stats.setXp(xp);
+        setPlayerStats(player, stats);
+    }
+
+    public void checkLevelUp(Player player)
+    {
+        PlayerStats stats = getPlayerStats(player);
+        int xp = stats.getXp();
+        for (int i = 0; i < stats.getLevel() ; i++)
+        {
+            int levelUpReq = i * 20;
+
+            if (xp ==  levelUpReq)
+            {
+                player.sendMessage("Level up!");
+                openLevelUpMenu(player);
+            }
+        }
+    };
+
+    public void gainLevelUp(Player player)
+    {
+        PlayerStats stats = getPlayerStats(player);
+        stats.setLevel(stats.getLevel() +1);
+    }
 }
