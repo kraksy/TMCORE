@@ -8,3 +8,9 @@ commands:
     spawnmenu:
       description: spawn menu for mobs
       aliases: [SpawnMenu]
+    weaponmenu:
+      description: spawn menu for weapons
+      aliases: [WeaponMenu]
+    statmanager:
+      description: manager for levels
+      aliases: [StatManager]

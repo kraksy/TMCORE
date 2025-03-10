@@ -5,7 +5,9 @@ import krek.tMCORE.HealthBar.PlayerBarManager;
 import krek.tMCORE.Statistics.PlayerStats;
 import krek.tMCORE.commands.SpawningMenuCommand;
 import krek.tMCORE.commands.SpawningMenuListener;
-import krek.tMCORE.weapons.weaponManager;
+import krek.tMCORE.weapons.WeaponManager;
+import krek.tMCORE.weapons.WeaponSpawnMenu;
+import krek.tMCORE.weapons.WeaponSpawnMenuEvents;
 import net.kyori.adventure.text.Component;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
@@ -28,7 +30,6 @@ import static org.bukkit.Bukkit.createInventory;
 import java.io.File;
 import java.io.IOException;
 import java.util.Objects;
-import java.util.UUID;
 import java.util.logging.Logger;
 
 import static org.bukkit.Bukkit.createInventory;
@@ -66,13 +67,15 @@ public final class TMCORE extends JavaPlugin implements Listener {
         Bukkit.getPluginManager().registerEvents(new EnemyBarManager(), this);
         Bukkit.getPluginManager().registerEvents(new PlayerBarManager(), this);
         Bukkit.getPluginManager().registerEvents(new SpawningMenuListener(), this);
-        Bukkit.getPluginManager().registerEvents(new weaponManager(), this);
+        Bukkit.getPluginManager().registerEvents(new WeaponManager(), this);
+        Bukkit.getPluginManager().registerEvents(new WeaponSpawnMenuEvents(), this);
         log.info("[TMCORE] Plugin events has been registered");
     }
 
     public void registerCommands()
     {
         Objects.requireNonNull(getCommand("spawnmenu")).setExecutor(new SpawningMenuCommand());
+        Objects.requireNonNull(getCommand("weaponmenu")).setExecutor(new WeaponSpawnMenu());
         log.info("[TMCORE] Plugin commands has been registered");
     }
 
