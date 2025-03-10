@@ -1,0 +1,10 @@
+name: TMCORE
+version: '0.1'
+author: krek
+main: krek.tMCORE.TMCORE
+api-version: '1.21'
+
+commands:
+    spawnmenu:
+      description: spawn menu for mobs
+      aliases: [SpawnMenu]

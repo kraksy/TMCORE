@@ -1,8 +1,13 @@
 package krek.tMCORE.weapons;
 
+import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 
+import krek.tMCORE.TMCORE;
+import krek.tMCORE.Statistics.PlayerStats;
+
 public class weapon {
+    
     int levelReq;
     String name;
     String lore;
@@ -13,6 +18,19 @@ public class weapon {
         this.name = name;
         this.lore = lore;
         this.itemVisual = itemVisual;
+    }
+    
+    
+    public boolean levelReqMet(Player player)
+    {
+      int weaponLevel = getLevelReq();
+      PlayerStats stats = TMCORE.getPlayerStats(player);
+
+      if (stats.getLevel() == weaponLevel)
+      {
+        return true;
+      }
+      return false;
     }
 
     public int getLevelReq() {
@@ -28,7 +46,7 @@ public class weapon {
     }
 
     public void setName(String name) {
-        this.name = name;
+      this.name = name;
     }
 
     public String getLore() {

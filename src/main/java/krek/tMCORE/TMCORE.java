@@ -36,8 +36,8 @@ import static org.bukkit.Bukkit.createInventory;
 public final class TMCORE extends JavaPlugin implements Listener {
 
     private final Logger log = getLogger();
-    private File playerDataFile;
-    private FileConfiguration playerDataConfig;
+    static private File playerDataFile;
+    static private FileConfiguration playerDataConfig;
 
     @Override
     public void onEnable() {
@@ -121,7 +121,7 @@ public final class TMCORE extends JavaPlugin implements Listener {
         savePlayerData();
     }
 
-    public PlayerStats getPlayerStats(Player player) {
+    static public PlayerStats getPlayerStats(Player player) {
         PlayerStats stats = new PlayerStats(0 ,0 , 0, 0, 0, 0);
 
         stats.setLevel(playerDataConfig.getInt("players." + player.getUniqueId() + ".level"));
