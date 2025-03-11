@@ -3,12 +3,47 @@ package krek.tMCORE.weapons;
 import org.bukkit.Material;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
+import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.event.player.PlayerItemDamageEvent;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.Damageable;
 import org.bukkit.inventory.meta.ItemMeta;
 
 public class WeaponManager implements Listener {
+
+    private boolean isCrouching = false;
+    
+    // ability activation event 
+    @EventHandler
+    public void onPlayerCrouch(PlayerToggleSneakEvent event)
+    {
+      Player player = event.getPlayer();
+      isCrouching = event.isSneaking();
+    }
+
+    @EventHandler
+    public void onPlayerRightClick(PlayerInteractEvent event)
+    {
+      Player player = event.getPlaye();
+
+      switch (event.getItem()) {
+        case :
+          
+          break;
+
+        default:
+          break;
+      }
+
+      // put this in switch
+      if (event.getAction() == Action.RIGHT_CLICK_AIR || event.getAction() == Action.RIGHT_CLICK_BLOCK)
+      {
+        if (isCrouching)
+        {
+          
+        }
+      }
+    }
 
     @EventHandler
     public void onItemDamage(PlayerItemDamageEvent event)

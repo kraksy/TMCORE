@@ -6,7 +6,6 @@ import krek.tMCORE.weapons.abilities.WeaponAbility;
 import net.kyori.adventure.text.Component;
 import org.bukkit.Material;
 
-import java.awt.*;
 import java.util.List;
 
 public class Sword extends CustomWeapon {
