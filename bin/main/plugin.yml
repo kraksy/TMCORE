@@ -1,0 +1,16 @@
+name: TMCORE
+version: '0.1'
+author: krek
+main: krek.tMCORE.TMCORE
+api-version: '1.21'
+
+commands:
+    spawnmenu:
+      description: spawn menu for mobs
+      aliases: [SpawnMenu]
+    weaponmenu:
+      description: spawn menu for weapons
+      aliases: [WeaponMenu]
+    statmanager:
+      description: manager for levels
+      aliases: [StatManager]
