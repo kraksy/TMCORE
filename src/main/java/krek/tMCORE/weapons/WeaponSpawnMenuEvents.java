@@ -30,7 +30,7 @@ public class WeaponSpawnMenuEvents implements Listener {
                 false
         );
 
-        if (e.getView().title().toString().contains("Weapons"))
+        if (e.getView().title().toString().contains("weapons"))
         {
             e.setCancelled(true);
             ItemStack clickedItem = e.getCurrentItem();
@@ -38,7 +38,8 @@ public class WeaponSpawnMenuEvents implements Listener {
 
             if (clickedItem.getType() == Material.IRON_SWORD)
             {
-                p.give(BigSword.createItemStack());
+                p.getInventory().addItem(BigSword.createItemStack());
+
             }
         }
     }

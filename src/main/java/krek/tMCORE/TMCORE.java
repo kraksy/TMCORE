@@ -140,7 +140,6 @@ public final class TMCORE extends JavaPlugin implements Listener {
     @EventHandler
     public void onPlayerJoin(PlayerJoinEvent event) {
         Player player = event.getPlayer();
-        player.sendMessage("Welcome back! Your stats are " + getPlayerStats(player));
     }
 
     @EventHandler

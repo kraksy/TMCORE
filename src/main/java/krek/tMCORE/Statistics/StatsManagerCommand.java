@@ -19,15 +19,15 @@ public class StatsManagerCommand implements CommandExecutor {
         if (commandSender instanceof Player e)
         {
             ItemStack levelUp = new ItemStack(Material.GOLD_BLOCK);
-            ItemStack levelDown = new ItemStack(Material.GOLD_BLOCK);
+            ItemStack levelDown = new ItemStack(Material.IRON_BLOCK);
             ItemStack vigorUp = new ItemStack(Material.RED_WOOL);
-            ItemStack vigorDown = new ItemStack(Material.RED_WOOL);
+            ItemStack vigorDown = new ItemStack(Material.WHITE_WOOL);
             ItemStack strengthUp = new ItemStack(Material.IRON_SWORD);
-            ItemStack strengthDown = new ItemStack(Material.IRON_SWORD);
+            ItemStack strengthDown = new ItemStack(Material.GOLDEN_SWORD);
             ItemStack dexterityUp = new ItemStack(Material.ARROW);
-            ItemStack dexterityDown = new ItemStack(Material.ARROW);
+            ItemStack dexterityDown = new ItemStack(Material.SPECTRAL_ARROW);
             ItemStack intelligenceUp = new  ItemStack(Material.ENDER_PEARL);
-            ItemStack intelligenceDown = new  ItemStack(Material.ENDER_PEARL);
+            ItemStack intelligenceDown = new  ItemStack(Material.SNOWBALL);
 
             Inventory inv = createInventory(e, 54, Component.text("stat manager"));
 

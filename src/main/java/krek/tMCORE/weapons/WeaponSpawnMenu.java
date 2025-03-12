@@ -34,7 +34,7 @@ public class WeaponSpawnMenu implements CommandExecutor {
                     false
             );
 
-            Inventory inventory = createInventory(e, 54, Component.text("spawning menu"));
+            Inventory inventory = createInventory(e, 54, Component.text("weapons"));
             inventory.setItem(1, BigSword.createItemStack());
             e.openInventory(inventory);
         }

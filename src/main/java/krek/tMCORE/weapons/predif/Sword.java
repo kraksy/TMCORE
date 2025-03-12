@@ -11,7 +11,7 @@ import java.util.List;
 
 public class Sword extends CustomWeapon {
 
-  boolean isDualWield;
+  private boolean isDualWield;
 
   public Sword(String name, List<Component> lore, Material itemVisual, WeaponAbility ability, PlayerStats reqStats, boolean isDualWield) {
     super(name, lore, itemVisual, ability, reqStats);
