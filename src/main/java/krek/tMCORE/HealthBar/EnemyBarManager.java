@@ -43,6 +43,13 @@ public class EnemyBarManager implements Listener {
         totalBar.append(EnemyBar.rightCorner);
         return totalBar.toString();
     }
+    
+    // add this to all the healthbars
+    public double decFormat(double dec){
+      double x = roundBigDecimal(dec, 3);
+      formatDecimal(x, 3);
+      return x;
+    }
 
     @EventHandler
     public void onSpawnEnemy(EntitySpawnEvent event)
@@ -50,7 +57,7 @@ public class EnemyBarManager implements Listener {
         Entity e = event.getEntity();
         if (e instanceof Monster m)
         {
-            EnemyBar.HV = m.getHealth();
+            EnemyBar.HV = m.getHealth() / 10;
             EnemyBar.AV = Objects.requireNonNull(m.getAttribute(Attribute.ARMOR)).getValue();
             m.customName(Component.text(barAssemble()));
         }
