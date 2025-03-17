@@ -1,5 +1,8 @@
+
 # TMCORE
 ---
+
+![Header](./banner.png)
 
 ## tmcore is : 
 
@@ -21,6 +24,8 @@
 --- 
 
 ## editing content :
+
+#switching to database later 
 
 everything will be managed with configs;
 
