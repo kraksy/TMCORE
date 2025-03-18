@@ -1,10 +1,12 @@
 package krek.tMCORE.weapons;
 
 import org.bukkit.Material;
+import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.event.player.PlayerItemDamageEvent;
+import org.bukkit.event.player.PlayerToggleSneakEvent;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.Damageable;
 import org.bukkit.inventory.meta.ItemMeta;
@@ -21,6 +23,7 @@ public class WeaponManager implements Listener {
       isCrouching = event.isSneaking();
     }
 
+    /*
     @EventHandler
     public void onPlayerRightClick(PlayerInteractEvent event)
     {
@@ -42,8 +45,10 @@ public class WeaponManager implements Listener {
         {
           
         }
+
       }
     }
+    */
 
     @EventHandler
     public void onItemDamage(PlayerItemDamageEvent event)

@@ -3,6 +3,7 @@ package krek.tMCORE;
 import krek.tMCORE.HealthBar.EnemyBarManager;
 import krek.tMCORE.HealthBar.PlayerBarManager;
 import krek.tMCORE.Statistics.PlayerStats;
+import krek.tMCORE.Utils.Database;
 import krek.tMCORE.commands.SpawningMenuCommand;
 import krek.tMCORE.commands.SpawningMenuListener;
 import krek.tMCORE.weapons.WeaponManager;
@@ -26,9 +27,12 @@ import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.plugin.java.JavaPlugin;
 
+import javax.xml.crypto.Data;
+
 import static org.bukkit.Bukkit.createInventory;
 import java.io.File;
 import java.io.IOException;
+import java.sql.SQLException;
 import java.util.Objects;
 import java.util.logging.Logger;
 
@@ -39,9 +43,22 @@ public final class TMCORE extends JavaPlugin implements Listener {
     private final Logger log = getLogger();
     static private File playerDataFile;
     static private FileConfiguration playerDataConfig;
+    private Database database;
 
     @Override
     public void onEnable() {
+        try {
+            if (!getDataFolder().exists()) {
+                getDataFolder().mkdir();
+            }
+
+            database = new Database(getDataFolder().getAbsoluteFile() + "/TMCORE.db");
+        }catch (SQLException ex)
+        {
+            ex.printStackTrace();
+            System.out.println("failed to connect to database" + ex.getMessage());
+            Bukkit.getPluginManager().disablePlugin(this);
+        }
         startupMessage();
         createPlayerDataFile();
         registerEvents();
@@ -50,6 +67,11 @@ public final class TMCORE extends JavaPlugin implements Listener {
 
     @Override
     public void onDisable() {
+        try {
+            database.closeConnection();
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
         log.info("ending");
         savePlayerData();
     }
