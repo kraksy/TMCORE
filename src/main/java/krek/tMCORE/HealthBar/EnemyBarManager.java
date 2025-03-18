@@ -51,6 +51,15 @@ public class EnemyBarManager implements Listener {
       return x;
     }
 
+    /*
+    // add this to all the healthbars
+    public double decFormat(double dec){
+      double x = roundBigDecimal(dec, 3);
+      formatDecimal(x, 3);
+      return x;
+    }
+    */
+
     @EventHandler
     public void onSpawnEnemy(EntitySpawnEvent event)
     {
