@@ -45,14 +45,7 @@ public class EnemyBarManager implements Listener {
     }
     
     // add this to all the healthbars
-    public double decFormat(double dec){
-      double x = roundBigDecimal(dec, 3);
-      formatDecimal(x, 3);
-      return x;
-    }
-
     /*
-    // add this to all the healthbars
     public double decFormat(double dec){
       double x = roundBigDecimal(dec, 3);
       formatDecimal(x, 3);

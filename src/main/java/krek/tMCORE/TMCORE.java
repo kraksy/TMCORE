@@ -53,7 +53,7 @@ public final class TMCORE extends JavaPlugin implements Listener {
             }
 
             database = new Database(getDataFolder().getAbsoluteFile() + "/TMCORE.db");
-        }catch (SQLException ex)
+        }catch (SQLException | IOException ex)
         {
             ex.printStackTrace();
             System.out.println("failed to connect to database" + ex.getMessage());
@@ -147,7 +147,7 @@ public final class TMCORE extends JavaPlugin implements Listener {
     }
 
     static public PlayerStats getPlayerStats(Player player) {
-        PlayerStats stats = new PlayerStats(0 ,0 , 0, 0, 0, 0);
+        PlayerStats stats = new PlayerStats();
 
         stats.setLevel(playerDataConfig.getInt("players." + player.getUniqueId() + ".level"));
         stats.setXp(playerDataConfig.getInt("players." + player.getUniqueId() + ".xp"));
@@ -160,8 +160,9 @@ public final class TMCORE extends JavaPlugin implements Listener {
     }
 
     @EventHandler
-    public void onPlayerJoin(PlayerJoinEvent event) {
+    public void onPlayerJoin(PlayerJoinEvent event) throws SQLException {
         Player player = event.getPlayer();
+        database.addPlayer(player);
     }
 
     @EventHandler

@@ -1,60 +1,61 @@
 package krek.tMCORE.Utils;
 
+import krek.tMCORE.Statistics.PlayerStats;
+import krek.tMCORE.TMCORE;
+import org.bukkit.entity.Player;
+
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.SQLException;
-import java.sql.Statement;
+import java.sql.*;
 import java.util.stream.Collectors;
 
 public class Database {
-
-  // if you move every data loading and saving in here
-  // the main file will be cleared a lot , and tthats a good thing
-  // if you do it more early than any other implementation , its gonna be very lovely
-  // thank you future me : 3
-
-    // just follow the video yea ? https://www.youtube.com/watch?v=lF_a8H679OI
-
     private final Connection connection;
-
-    public String readSqlFile(String filePath) throws IOException {
-        try
-        {
-            BufferedReader reader = new BufferedReader(new FileReader(new File(filePath), StandardCharsets.UTF_8))
-            {
-                return reader.readLine().lines().collect(Collectors.joining("\n"));
-            };
-        }catch (IOException e)
-        {
-            e.printStackTrace();
-        }
-    }
 
     public Database(String path) throws SQLException, IOException {
         connection = DriverManager.getConnection("jdbc:sqlite:" + path);
         Statement statement = connection.createStatement();
 
-        /*
-
         statement.execute("""
-            CREATE TABLE IF NOT EXISTS player (
-                uuid TEXT PRIMARY KEY,
-                username TEXT NOT NULL
-            )
-        """);
-
-         */
-
-        // this is very good idea I think , but idk how to make it better
-
-        statement.execute(readSqlFile("krek/tMCORE/raw/init.sql"));
+        CREATE TABLE IF NOT EXISTS players (
+        uuid TEXT PRIMARY KEY,
+        level INTEGER NOT NULL DEFAULT 1,
+        xp INTEGER NOT NULL DEFAULT 0,
+        vigor INTEGER NOT NULL DEFAULT 10,
+        strength INTEGER NOT NULL DEFAULT 10,
+        dexterity INTEGER NOT NULL DEFAULT 10,
+        intelligence INTEGER NOT NULL DEFAULT 10
+    )
+""");
 
         statement.close();
+    }
+
+    public void addPlayer(Player p) throws SQLException {
+        try (PreparedStatement preparedStatement = connection.prepareStatement
+                ("INSERT INTO players (uuid, Level, Xp, Vigor, Strength, Dexterity, Intelligence) VALUES (?, ?, ? ,? ,? ,? ,?)"))
+        {
+            PlayerStats stats = TMCORE.getPlayerStats(p);
+            System.out.println("Saving PlayerStats:");
+            System.out.println("Level: " + stats.getLevel());
+            System.out.println("XP: " + stats.getXp());
+            System.out.println("Vigor: " + stats.getVigor());
+            System.out.println("Strength: " + stats.getStrength());
+            System.out.println("Dexterity: " + stats.getDexterity());
+            System.out.println("Intelligence: " + stats.getIntelligence());
+            preparedStatement.setString(1, p.getUniqueId().toString());
+            preparedStatement.setInt(2, stats.getLevel());
+            preparedStatement.setInt(3, stats.getXp());
+            preparedStatement.setInt(4, stats.getVigor());
+            preparedStatement.setInt(5, stats.getStrength());
+            preparedStatement.setInt(6, stats.getDexterity());
+            preparedStatement.setInt(7, stats.getIntelligence());
+            preparedStatement.executeUpdate();
+        }
+
     }
 
     public void closeConnection() throws SQLException {

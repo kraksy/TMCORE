@@ -11,6 +11,16 @@ public class PlayerStats {
     int dexterity;
     int intelligence;
 
+    public PlayerStats()
+    {
+        this.level = 1;
+        this.xp = 0;
+        this.vigor = 10;
+        this.strength = 10;
+        this.dexterity = 10;
+        this.intelligence = 10;
+    }
+
     public PlayerStats(int level, int xp, int vigor, int strength, int dexterity, int intelligence) {
         this.level = level;
         this.xp = xp;
