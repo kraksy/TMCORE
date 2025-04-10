@@ -2,6 +2,7 @@ package krek.tMCORE.Utils;
 
 import krek.tMCORE.Statistics.PlayerStats;
 import krek.tMCORE.TMCORE;
+import krek.tMCORE.weapons.CustomWeapon;
 import org.bukkit.entity.Player;
 
 import java.io.BufferedReader;
@@ -90,15 +91,43 @@ public class Database {
         }
     }
 
-    public void getPlayerStatistics(Player p) throws SQLException
+    public void getPlayerStatistics(Player p) throws SQLException {
+        try (PreparedStatement preparedStatement = connection.prepareStatement(
+                "SELECT Level, Xp, Vigor, Strength, Dexterity, Intelligence FROM players WHERE uuid = ?"
+        )) {
+            preparedStatement.setString(1, p.getUniqueId().toString());
+
+            try (ResultSet resultSet = preparedStatement.executeQuery()) {
+                if (resultSet.next()) {
+                    int level = resultSet.getInt("Level");
+                    int xp = resultSet.getInt("Xp");
+                    int vigor = resultSet.getInt("Vigor");
+                    int strength = resultSet.getInt("Strength");
+                    int dexterity = resultSet.getInt("Dexterity");
+                    int intelligence = resultSet.getInt("Intelligence");
+
+                    System.out.println("Loaded PlayerStats:");
+                    System.out.println("Level: " + level);
+                    System.out.println("XP: " + xp);
+                    System.out.println("Vigor: " + vigor);
+                    System.out.println("Strength: " + strength);
+                    System.out.println("Dexterity: " + dexterity);
+                    System.out.println("Intelligence: " + intelligence);
+                } else {
+                    System.out.println("No stats found for player " + p.getName());
+                }
+            }
+        }
+    }
+
+    public void addWeapon(CustomWeapon weapon) throws SQLException
     {
         try (PreparedStatement preparedStatement = connection.prepareStatement(
-            "SELECT * FROM players"
+                "INSERT INTO weapons (lore , item_visual, ability, req_Stats, has_special_effect, created_at) VALUES (?,?,?,?,?,?)"
         ))
         {
-
-
-            preparedStatement.executeUpdate();
+            preparedStatement.setString(1, weapon.getLore().toString());
+            preparedStatement.v
         }
     }
 
