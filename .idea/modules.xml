@@ -3,6 +3,7 @@
   <component name="ProjectModuleManager">
     <modules>
       <module fileurl="file://$PROJECT_DIR$/.idea/modules/TMCORE.main.iml" filepath="$PROJECT_DIR$/.idea/modules/TMCORE.main.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/krek.TMCORE.main.iml" filepath="$PROJECT_DIR$/.idea/modules/krek.TMCORE.main.iml" />
     </modules>
   </component>
 </project>

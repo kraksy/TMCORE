@@ -21,15 +21,48 @@ public class Database {
 
         statement.execute("""
         CREATE TABLE IF NOT EXISTS players (
-        uuid TEXT PRIMARY KEY,
-        level INTEGER NOT NULL DEFAULT 1,
-        xp INTEGER NOT NULL DEFAULT 0,
-        vigor INTEGER NOT NULL DEFAULT 10,
-        strength INTEGER NOT NULL DEFAULT 10,
-        dexterity INTEGER NOT NULL DEFAULT 10,
-        intelligence INTEGER NOT NULL DEFAULT 10
-    )
-""");
+            uuid TEXT PRIMARY KEY,
+            level INTEGER NOT NULL DEFAULT 1,
+            xp INTEGER NOT NULL DEFAULT 0,
+            vigor INTEGER NOT NULL DEFAULT 10,
+            strength INTEGER NOT NULL DEFAULT 10,
+            dexterity INTEGER NOT NULL DEFAULT 10,
+            intelligence INTEGER NOT NULL DEFAULT 10
+        )
+        """);
+
+        statement.execute("""
+        CREATE TABLE IF NOT EXISTS weapons (
+            id INTEGER PRIMARY KEY AUTOINCREMENT,
+            name VARCHAR(100) NOT NULL,
+            lore TEXT,
+            item_visual VARCHAR(50) NOT NULL,
+            ability VARCHAR(50),
+            req_stats TEXT,
+            has_special_effect BOOLEAN DEFAULT FALSE,
+            created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+        )
+        """);
+
+        statement.execute("""
+        CREATE TABLE IF NOT EXISTS enemies (
+            id INTEGER PRIMARY KEY AUTOINCREMENT,
+            name VARCHAR(100) NOT NULL,
+            ability VARCHAR(50),
+            stats TEXT,
+            created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+        )
+        """);
+
+        statement.execute("""
+        CREATE TABLE IF NOT EXISTS bosses (
+            id INTEGER PRIMARY KEY AUTOINCREMENT,
+            name VARCHAR(100) NOT NULL,
+            ability VARCHAR(50),
+            stats TEXT,
+            created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+        )
+        """);
 
         statement.close();
     }
@@ -55,7 +88,18 @@ public class Database {
             preparedStatement.setInt(7, stats.getIntelligence());
             preparedStatement.executeUpdate();
         }
+    }
 
+    public void getPlayerStatistics(Player p) throws SQLException
+    {
+        try (PreparedStatement preparedStatement = connection.prepareStatement(
+            "SELECT * FROM players"
+        ))
+        {
+
+
+            preparedStatement.executeUpdate();
+        }
     }
 
     public void closeConnection() throws SQLException {
