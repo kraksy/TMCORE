@@ -3,6 +3,7 @@ package krek.tMCORE;
 import krek.tMCORE.HealthBar.EnemyBarManager;
 import krek.tMCORE.HealthBar.PlayerBarManager;
 import krek.tMCORE.Statistics.PlayerStats;
+import krek.tMCORE.Statistics.StatsManagerCommand;
 import krek.tMCORE.Utils.Database;
 import krek.tMCORE.commands.SpawningMenuCommand;
 import krek.tMCORE.commands.SpawningMenuListener;
@@ -98,6 +99,7 @@ public final class TMCORE extends JavaPlugin implements Listener {
     {
         Objects.requireNonNull(getCommand("spawnmenu")).setExecutor(new SpawningMenuCommand());
         Objects.requireNonNull(getCommand("weaponmenu")).setExecutor(new WeaponSpawnMenu());
+        Objects.requireNonNull(getCommand("statmenu")).setExecutor(new StatsManagerCommand());
         log.info("[TMCORE] Plugin commands has been registered");
     }
 
@@ -162,7 +164,9 @@ public final class TMCORE extends JavaPlugin implements Listener {
     @EventHandler
     public void onPlayerJoin(PlayerJoinEvent event) throws SQLException {
         Player player = event.getPlayer();
-        database.addPlayer(player);
+        if (!player.hasPlayedBefore()) {
+            database.addPlayer(player);
+        }
     }
 
     @EventHandler
@@ -173,7 +177,6 @@ public final class TMCORE extends JavaPlugin implements Listener {
 
     public void openLevelUpMenu(Player player)
     {
-        // decorate this later
         Inventory inv = createInventory(player, 54, Component.text("Level up!"));
         ItemStack vitality = new ItemStack(Material.RED_WOOL, 1);
         ItemStack strength = new ItemStack(Material.IRON_SWORD, 1);

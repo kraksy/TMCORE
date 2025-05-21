@@ -1,5 +1,6 @@
 package krek.tMCORE.HealthBar;
 
+import krek.tMCORE.Utils.NumberUtils;
 import net.kyori.adventure.text.Component;
 import org.bukkit.attribute.Attribute;
 import org.bukkit.entity.Entity;
@@ -31,27 +32,16 @@ public class EnemyBarManager implements Listener {
 
     public String barAssemble()
     {
-        StringBuilder totalBar = new StringBuilder();
-        totalBar.append(EnemyBar.leftCorner);
-        totalBar.append(EnemyBar.HV);
-        totalBar.append(EnemyBar.HIcon);
-        totalBar.append(EnemyBar.rightCorner);
-        totalBar.append(" ".repeat(3));
-        totalBar.append(EnemyBar.leftCorner);
-        totalBar.append(EnemyBar.AV);
-        totalBar.append(EnemyBar.AIcon);
-        totalBar.append(EnemyBar.rightCorner);
-        return totalBar.toString();
+        return EnemyBar.leftCorner +
+                EnemyBar.HV +
+                EnemyBar.HIcon +
+                EnemyBar.rightCorner +
+                " ".repeat(3) +
+                EnemyBar.leftCorner +
+                EnemyBar.AV +
+                EnemyBar.AIcon +
+                EnemyBar.rightCorner;
     }
-    
-    // add this to all the healthbars
-    /*
-    public double decFormat(double dec){
-      double x = roundBigDecimal(dec, 3);
-      formatDecimal(x, 3);
-      return x;
-    }
-    */
 
     @EventHandler
     public void onSpawnEnemy(EntitySpawnEvent event)
@@ -59,7 +49,7 @@ public class EnemyBarManager implements Listener {
         Entity e = event.getEntity();
         if (e instanceof Monster m)
         {
-            EnemyBar.HV = m.getHealth() / 10;
+            EnemyBar.HV = NumberUtils.format(m.getHealth());
             EnemyBar.AV = Objects.requireNonNull(m.getAttribute(Attribute.ARMOR)).getValue();
             m.customName(Component.text(barAssemble()));
         }
@@ -71,7 +61,7 @@ public class EnemyBarManager implements Listener {
         Entity e = event.getEntity();
         if (e instanceof Monster m)
         {
-            EnemyBar.HV = m.getHealth();
+            EnemyBar.HV = NumberUtils.format(m.getHealth());
             EnemyBar.AV = Objects.requireNonNull(m.getAttribute(Attribute.ARMOR)).getValue();
             m.customName(Component.text(barAssemble()));
         }
@@ -81,7 +71,7 @@ public class EnemyBarManager implements Listener {
     public void onEnemyDamage(EntityDamageEvent event) {
         Entity e = event.getEntity();
         if (e instanceof Monster m){
-            EnemyBar.HV = m.getHealth();
+            EnemyBar.HV = NumberUtils.format(m.getHealth());
             EnemyBar.AV = Objects.requireNonNull(m.getAttribute(Attribute.ARMOR)).getValue();
             m.customName(Component.text(barAssemble()));
         }

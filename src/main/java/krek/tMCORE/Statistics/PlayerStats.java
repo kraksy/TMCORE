@@ -77,4 +77,5 @@ public class PlayerStats {
     public void setIntelligence(int intelligence) {
         this.intelligence = intelligence;
     }
+
 }

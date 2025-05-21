@@ -1,6 +1,7 @@
 package krek.tMCORE.HealthBar;
 
 import krek.tMCORE.TMCORE;
+import krek.tMCORE.Utils.NumberUtils;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.format.NamedTextColor;
 import org.bukkit.attribute.Attribute;
@@ -17,7 +18,6 @@ import java.util.Objects;
 
 
 public class PlayerBarManager implements Listener {
-
     Bar playerBar = new Bar(
             "█",
             "-",
@@ -33,36 +33,29 @@ public class PlayerBarManager implements Listener {
             0
             );
 
-    public String barAssemble()
-    {
-        StringBuilder totalBar = new StringBuilder();
-        totalBar.append(playerBar.leftCorner);
-        totalBar.append(playerBar.HV);
-        totalBar.append(playerBar.HIcon);
-        totalBar.append(playerBar.rightCorner);
-        for (int i = 0; i < 3; i++)
-        {
-            totalBar.append(" ");
-        }
-        totalBar.append(playerBar.leftCorner);
-        totalBar.append(playerBar.MV);
-        totalBar.append(playerBar.MIcon);
-        totalBar.append(playerBar.rightCorner);
-        for (int i = 0; i < 3; i++)
-        {
-            totalBar.append(" ");
-        }
-        totalBar.append(playerBar.leftCorner);
-        totalBar.append(playerBar.AV);
-        totalBar.append(playerBar.AIcon);
-        totalBar.append(playerBar.rightCorner);
-        return  totalBar.toString();
+
+    public Component barAssemble() {
+        return  Component.text(playerBar.leftCorner, NamedTextColor.GREEN)
+                .append(Component.text(playerBar.HV, NamedTextColor.RED))
+                .append(Component.text(playerBar.HIcon, NamedTextColor.DARK_RED))
+                .append(Component.text(playerBar.rightCorner, NamedTextColor.GREEN))
+                .append(Component.text("   ")) // spacing
+                .append(Component.text(playerBar.leftCorner, NamedTextColor.BLUE))
+                .append(Component.text(playerBar.MV, NamedTextColor.AQUA))
+                .append(Component.text(playerBar.MIcon, NamedTextColor.DARK_AQUA))
+                .append(Component.text(playerBar.rightCorner, NamedTextColor.BLUE))
+                .append(Component.text("   ")) // spacing
+                .append(Component.text(playerBar.leftCorner, NamedTextColor.GRAY))
+                .append(Component.text(playerBar.AV, NamedTextColor.WHITE))
+                .append(Component.text(playerBar.AIcon, NamedTextColor.DARK_GRAY))
+                .append(Component.text(playerBar.rightCorner, NamedTextColor.GRAY));
     }
 
     @EventHandler
     public void onPlayerJoin(PlayerJoinEvent event)
     {
         Player player = event.getPlayer();
+
         AttributeInstance healthAttr = player.getAttribute(Attribute.MAX_HEALTH);
         AttributeInstance armorAttr = player.getAttribute(Attribute.ARMOR);
 
@@ -71,11 +64,12 @@ public class PlayerBarManager implements Listener {
             public void run() {
                 if (healthAttr != null) playerBar.HV = healthAttr.getValue();
                 if (armorAttr != null) playerBar.AV = armorAttr.getValue();
+
                 if (!player.isOnline()) {
                     this.cancel(); // Stop the task if the player is offline
                     return;
                 }
-                player.sendActionBar(Component.text(barAssemble()));
+                player.sendActionBar(barAssemble());
             }
         }.runTaskTimer(TMCORE.getPlugin(TMCORE.class), 0L, 5L);
 
@@ -87,9 +81,9 @@ public class PlayerBarManager implements Listener {
     {
         if (event.getEntity() instanceof Player p)
         {
-            playerBar.HV = p.getHealth();
+            playerBar.HV = NumberUtils.format(p.getHealth());
             playerBar.AV = Objects.requireNonNull(p.getAttribute(Attribute.ARMOR)).getValue();
-            p.sendActionBar(Component.text(barAssemble()));
+            p.sendActionBar(barAssemble());
         }
     }
 
@@ -97,9 +91,9 @@ public class PlayerBarManager implements Listener {
     public void onPlayerDamage(EntityDamageByEntityEvent event)
     {
         if (event.getEntity() instanceof Player p) {
-            playerBar.HV = p.getHealth();
+            playerBar.HV = NumberUtils.format(p.getHealth());
             playerBar.AV = Objects.requireNonNull(p.getAttribute(Attribute.ARMOR)).getValue();
-            p.sendActionBar(Component.text(barAssemble()));
+            p.sendActionBar(barAssemble());
         }
     }
 }

@@ -15,7 +15,7 @@ public class StatsManagerEvents implements Listener {
     public void onInventoryClick(InventoryClickEvent e) {
         Player p = (Player) e.getWhoClicked();
 
-        if (e.getView().title().toString().contains("Statistics"))
+        if (e.getView().title().toString().contains("stat manager"))
         {
             e.setCancelled(true);
 

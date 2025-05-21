@@ -3,28 +3,17 @@ package krek.tMCORE.Statistics;
 import org.bukkit.entity.Monster;
 
 public class EnemyStats {
-    int level;
     int health;
     int damage;
     int speed;
     int armor;
 
-    public EnemyStats(int level, int health, int damage, int speed, int armor) {
-        this.level = level;
+    public EnemyStats(int health, int damage, int speed, int armor) {
         this.health = health;
         this.damage = damage;
         this.speed = speed;
         this.armor = armor;
     }
-
-    public int getLevel() {
-        return level;
-    }
-
-    public void setLevel(int level) {
-        this.level = level;
-    }
-
     public int getHealth() {
         return health;
     }

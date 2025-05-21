@@ -2,10 +2,15 @@ package krek.tMCORE.Enemies;
 
 import krek.tMCORE.Enemies.abilities.EnemyAbility;
 import krek.tMCORE.Statistics.EnemyStats;
+import org.bukkit.inventory.ItemStack;
 
 public class CustomEnemies {
 
     private String name;
+    private int level;
+    private int xpdrop;
+    private ItemStack itemDrop;
+    private ItemStack rareDrop;
     private EnemyAbility ability;
     private EnemyStats stats;
 
